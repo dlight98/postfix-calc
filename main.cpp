@@ -7,6 +7,7 @@ Date: 2019.4.12
 #include <stack>
 #include <cstdlib>
 #include <cmath>
+#include <math.h>
 
 using namespace std;
 
@@ -20,9 +21,10 @@ public:
 Postfix::Postfix(){}
 
 bool Postfix::makeStack(float &ans, stack<float> &s, string line){
-	int var;
-	int var1;
-	int var2;
+	int varInt;
+	float var =0;
+	float var1;
+	float var2;
 	string temp2;
 	ans = 0;
 	/*FIXME
@@ -33,11 +35,20 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
 		char tempc = temp.at(0);
 		if(isdigit(tempc)){
 			temp2 = temp.at(0);
-			var = stoi(temp);
+			varInt = stoi(temp);
+			var = static_cast<float>(varInt);
 			s.push(var);
-		} else if(temp.at(0) == '^'){
-			//TODO insert algorithm here
-
+		} else if(tempc == '^'){
+			var1 = s.top();
+			s.pop();
+			var2 = s.top();
+			s.pop();
+			var = var1;
+			/*for(int i =0; i < var2; i++){
+				var += var1 * var1;
+			}*/
+			var = pow(var2,var1);
+			s.push(var);
 		}else if(temp.at(0) == '*' || temp.at(0) == '/') {		//checks if operator
 			var1 = s.top();
 			//cout<<"var1 is: "<<var1<<endl;	//DEBUG
@@ -76,12 +87,13 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
 			break;
 		}
 		line.erase(0,index+1);	//needs the +1 or else it won’t erase the space
+		var = 0;
 	}
 	var = s.top();
 	//cout<<"var is: "<<var<<endl; //DEBUG
 	s.pop();
 	if(!s.empty()){
-		cout<<"Stack is not empty"<<endl;
+		cout<<"Invalid Expression!"<<endl;
 		return false;
 	}
 	ans = var;
