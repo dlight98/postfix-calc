@@ -9,7 +9,8 @@ Date: 2019.4.12
 using namespace std;
 
 //Function declarations
-//void makeStack(stack<float> &stack, string line){};
+int main();
+void makeStack(stack<float> &stack, string line);
 
 //main function
 int main(){
@@ -21,7 +22,7 @@ int main(){
 		if(line == "quit"){
 			break;
 		} else {
-			cout<<line<<endl;	//temp
+			cout<<line<<endl;	//TEMP
 		}
 	}
 	return 0;
