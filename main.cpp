@@ -6,6 +6,7 @@ Date: 2019.4.12
 #include <string>
 #include <stack>
 #include <cstdlib>
+#include <cmath>
 
 using namespace std;
 
@@ -26,7 +27,6 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
 	ans = 0;
 	/*FIXME
 	This current algorithm will only work with single digit variables*/
-	//for(int i = 0; i < line.size(); i++){	//Loops for the whole line
 	while(true){
 		int index = line.find(" ");	//finds a space → should loop for 2 space
 		string temp = line.substr(0, index);
@@ -34,32 +34,43 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
 		if(isdigit(tempc)){
 			temp2 = temp.at(0);
 			var = stoi(temp);
-			cout<<"Found digit: "<<var<<endl; //DEBUG
 			s.push(var);
 		} else if(temp.at(0) == '^'){
 			//TODO insert algorithm here
 
 		}else if(temp.at(0) == '*' || temp.at(0) == '/') {		//checks if operator
-			//TODO insert algorithm here
-
-		} else if(tempc == '+' || tempc == '-'){
 			var1 = s.top();
-			cout<<"var1 is: "<<var1<<endl;	//DEBUG
+			//cout<<"var1 is: "<<var1<<endl;	//DEBUG
 			s.pop();
 			var2 = s.top();
-			cout<<"var2 is: "<<var2<<endl;	//DEBUG
+			//cout<<"var2 is: "<<var2<<endl;	//DEBUG
+			s.pop();
+			if(tempc == '*'){
+				var = var1*var2;
+				//cout<<"Added. var is: "<<var<<endl; //DEBUG
+			} else {
+				var = var2/var1;
+				//cout<<"subtracted. var is: "<<var<<endl; //DEBUG
+			}
+			s.push(var);
+		} else if(tempc == '+' || tempc == '-'){
+			var1 = s.top();
+			//cout<<"var1 is: "<<var1<<endl;	//DEBUG
+			s.pop();
+			var2 = s.top();
+			//cout<<"var2 is: "<<var2<<endl;	//DEBUG
 			s.pop();
 			if(tempc == '+'){
 				var = var1+var2;
-				cout<<"Added. var is: "<<var<<endl; //DEBUG
+				//cout<<"Added. var is: "<<var<<endl; //DEBUG
 			} else {
 				var = var2-var1;
-				cout<<"subtracted. var is: "<<var<<endl; //DEBUG
+				//cout<<"subtracted. var is: "<<var<<endl; //DEBUG
 			}
 			s.push(var);
 		} else {
 			//TODO
-			cout<<"Not a valid entry"<<endl;	//DEBUG
+			//cout<<"Not a valid entry"<<endl;	//DEBUG
 		}
 		if(line.size() <= 1){
 			break;
@@ -67,7 +78,7 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
 		line.erase(0,index+1);	//needs the +1 or else it won’t erase the space
 	}
 	var = s.top();
-	cout<<"var is: "<<var<<endl; //DEBUG
+	//cout<<"var is: "<<var<<endl; //DEBUG
 	s.pop();
 	if(!s.empty()){
 		cout<<"Stack is not empty"<<endl;
@@ -95,7 +106,6 @@ int main(){
 			} else {
 
 			}
-			cout<<line<<endl;	//TEMP?
 		}
 	}
 	return 0;
