@@ -34,9 +34,12 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
 		string temp = line.substr(0, index);
 		char tempc = temp.at(0);
 		if(isdigit(tempc)){
+      for(int i = 0; i < index; i++){
+        
+      }
 			temp2 = temp.at(0);
-			varInt = stoi(temp);
-			var = static_cast<float>(varInt);
+			//varInt = stoi(temp);
+			var = stof(temp);
 			s.push(var);
 		} else if(tempc == '^'){
 			var1 = s.top();
