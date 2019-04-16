@@ -37,9 +37,6 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
       //if(temp != " " && temp != "  "){
       //char tempc = temp.at(0);
       if(isdigit(tempc)){
-        for(int i = 0; i < index; i++){
-
-        }
         temp2 = temp.at(0);
         //varInt = stoi(temp);
         var = stof(temp);
@@ -47,6 +44,10 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
       } else if(tempc == '^'){
         var1 = s.top();
         s.pop();
+        if(s.empty()){
+          cout<<"Invalid Expression!"<<endl;
+          return false;
+        }
         var2 = s.top();
         s.pop();
         var = var1;
@@ -59,6 +60,10 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
         var1 = s.top();
         //cout<<"var1 is: "<<var1<<endl;	//DEBUG
         s.pop();
+        if(s.empty()){
+          cout<<"Invalid Expression!"<<endl;
+          return false;
+        }
         var2 = s.top();
         //cout<<"var2 is: "<<var2<<endl;	//DEBUG
         s.pop();
@@ -74,6 +79,10 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
         var1 = s.top();
         //cout<<"var1 is: "<<var1<<endl;	//DEBUG
         s.pop();
+        if(s.empty()){
+          cout<<"Invalid Expression!"<<endl;
+          return false;
+        }
         var2 = s.top();
         //cout<<"var2 is: "<<var2<<endl;	//DEBUG
         s.pop();
@@ -88,7 +97,10 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
       } else {
         //TODO
         //cout<<"Not a valid entry"<<endl;	//DEBUG
-        cout<<"Should be if its a blank space?"<<endl;  //DEBUG
+        //cout<<"Should be if its a blank space?"<<endl;  //DEBUG
+        cout<<"Invalid Expression!"<<endl;
+        return false;
+
       }
     } //FIXME end of the new if statement
     if(line.size() <= 1){
