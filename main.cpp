@@ -15,8 +15,16 @@ using namespace std;
 class Postfix{
   public:
     Postfix();
+    /*this is the default constructor
+    it is needed to call the methods*/
     bool makeStack(float &ans, stack<float> &s, string line);
+    /*This goes through each space on list
+    and makes it a float or an operator
+    then it does the math
+    it returns true if it works and false if it doesn't*/
     bool checkEmpty(stack<float> &s);
+    /*checks if the stack is empty and prints out what is needed
+    probably not as useful as I thought it would be*/
 };
 
 Postfix::Postfix(){}  //Default constructor -- needed to call makeStack
@@ -25,16 +33,15 @@ bool Postfix::checkEmpty(stack<float> &s){
   if(s.empty()){  //checks if the stack is empty; if it is return false
     cout<<"Invalid Expression!"<<endl;
     return true;
-  } else {
+  }else{
     return false;
   }
-
 }
 
 bool Postfix::makeStack(float &ans, stack<float> &s, string line){
-  float var =0;
-  float var1;
-  float var2;
+  float var =0; //for the solution -- to be made into ans at the end
+  float var1; //becomes the first value on the stack
+  float var2; //becomes the second value on the stack
   ans = 0;
   while(true){
     int index = line.find(" ");	//finds a space
@@ -44,16 +51,16 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
       if(isdigit(tempc)){ //if the first character is a digit
         var = stof(temp); //convert temp to a float and push it to the stack
         s.push(var);
-      } else if(tempc == '^'){  //if the first character is a ^
+      }else if(tempc == '^'){  //if the first character is a ^
         if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
           return false; 
         }
-        var1 = s.top();
+        var1 = s.top(); //makes var1 the first item on stack
         s.pop();
         if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
           return false; 
         }
-        var2 = s.top();
+        var2 = s.top(); //makes var2 the second item on stack
         s.pop();
         var = var1;
         var = pow(var2,var1); //takes the top 2 items on stack and raise the 2nd item to the 1st item power
@@ -62,7 +69,6 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
         if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
           return false; 
         }
-
         var1 = s.top();
         s.pop();
         if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
@@ -70,13 +76,13 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
         }
         var2 = s.top();
         s.pop();
-        if(tempc == '*'){
+        if(tempc == '*'){ //if tempc is *, multiplies the two
           var = var1*var2;
-        } else {
+        }else{
           var = var2/var1;
         }
         s.push(var);
-      } else if(tempc == '+' || tempc == '-'){
+      }else if(tempc == '+' || tempc == '-'){ //checks if tempc is a + or -
         if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
           return false; 
         }
@@ -87,13 +93,13 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
         }
         var2 = s.top();
         s.pop();
-        if(tempc == '+'){
+        if(tempc == '+'){ 
           var = var1+var2;
-        } else {
+        }else{
           var = var2-var1;
         }
         s.push(var);
-      } else {
+      }else{  //if the input isn't any of the above it returns false
         cout<<"Invalid Expression!"<<endl;
         return false;
       }
@@ -106,9 +112,8 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
   }
   var = s.top();
   s.pop();
-  if(!s.empty()){
-    cout<<"Invalid Expression!"<<endl;
-    return false;
+  if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
+    return false; 
   }
   ans = var;
   return true;
@@ -124,10 +129,10 @@ int main(){
   while(true){
     cout<<"Enter a postfix expression or quit to exit:";
     getline(cin, line);
-    if(line == "quit"){
+    if(line == "quit" || line == "exit"){ //quits the loop "quit" or "exit" is types
       break;
-    } else {
-      if(calc.makeStack(ans, s, line) == true){
+    }else{
+      if(calc.makeStack(ans, s, line) == true){ //prints the answer if it makes the answer correctly
         cout<<ans<<endl;
       }
     }
