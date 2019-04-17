@@ -22,14 +22,14 @@ class Postfix{
     and makes it a float or an operator
     then it does the math
     it returns true if it works and false if it doesn't*/
-    bool checkEmpty(stack<float> &s);
+    bool checkEmpty(stack<float> s);
     /*checks if the stack is empty and prints out what is needed
     probably not as useful as I thought it would be*/
 };
 
 Postfix::Postfix(){}  //Default constructor -- needed to call makeStack
 
-bool Postfix::checkEmpty(stack<float> &s){
+bool Postfix::checkEmpty(stack<float> s){
   if(s.empty()){  //checks if the stack is empty; if it is return false
     cout<<"Invalid Expression!"<<endl;
     return true;
@@ -42,7 +42,7 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
   float var =0; //for the solution -- to be made into ans at the end
   float var1; //becomes the first value on the stack
   float var2; //becomes the second value on the stack
-  ans = 0;
+  //ans = 0;
   while(true){
     int index = line.find(" ");	//finds a space
     if(line.substr(0, index) != " " && line.substr(0, index) != "  " && line.substr(0, index)!=""){ //skips to end if the string is only a space 
@@ -112,10 +112,11 @@ bool Postfix::makeStack(float &ans, stack<float> &s, string line){
   }
   var = s.top();
   s.pop();
-  if(checkEmpty(s) == true){  //sees if the stack is empty; quits if it is
+  ans = var;
+  if(s.empty() == false){  //sees if the stack is empty; quits if it is NOT
+    cout<<"Invalid Expression!"<<endl;
     return false; 
   }
-  ans = var;
   return true;
 }
 
@@ -133,6 +134,7 @@ int main(){
       break;
     }else{
       if(calc.makeStack(ans, s, line) == true){ //prints the answer if it makes the answer correctly
+        //calc.makeStack(ans, s, line);
         cout<<ans<<endl;
       }
     }
